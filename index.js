@@ -10,11 +10,9 @@ if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(position => { 
         coordinates = [position.coords.longitude, position.coords.latitude];
 
-        mapboxgl.accessToken = 'pk.eyJ1IjoibmFsYW0wMDMiLCJhIjoiY2tpczQ5MGZ1MDdueTJ4cGo5cHBlbTB6OSJ9.dISsU0VNJu0-RCItgMXsig';
-
         map = new mapboxgl.Map({
             container: "map",
-            style: 'mapbox://styles/nalam003/cl2zerzar001315o53663qkrx',
+            style: `https://basemaps-api.arcgis.com/arcgis/rest/services/styles/${basemapEnum}?type=style&token=${apiKey}`,
             center: coordinates,
             zoom: 13
         });
