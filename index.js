@@ -113,12 +113,21 @@ function showPlaces() {
         }
     }).then((response) => {
         map.getSource("places").setData(response.geoJson);
-        /*
-        response.geoJson.features.forEach(feature => {
-            bounds.extend(feature.geometry.coordinates);
-        });
-        map.fitBounds(bounds); */
+        listBakeries(response.geoJson.features);
     }).catch((error) => { alert("There was a problem using the geocoder. See the console for details."); });
+}
+
+function listBakeries(bakeries) {
+    let list = document.getElementById("bakeries");
+
+    bakeries.forEach(bakery => {
+        bounds.extend(bakery.geometry.coordinates);
+        let name = document.createElement('p');
+        name.innerHTML = bakery.properties.PlaceName;
+        list.appendChild(name);
+    })
+
+    map.fitBounds(bounds);
 }
 
 function addRouteLayer() {
@@ -137,8 +146,7 @@ function addRouteLayer() {
 
         paint: {
             "line-color": "#ff69af",
-            "line-width": 4,
-            "line-opacity": 0.6
+            "line-width": 4
         }
     });
 }
