@@ -13,13 +13,17 @@
 
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
   <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+  <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
   <script src="https://unpkg.com/@esri/arcgis-rest-request@4.0.0/dist/bundled/request.umd.js"></script>
   <script src="https://unpkg.com/@esri/arcgis-rest-geocoding@4.0.0/dist/bundled/geocoding.umd.js"></script>
   <script src="https://unpkg.com/@esri/arcgis-rest-routing@4.0.0/dist/bundled/routing.umd.js"></script>
 </head>
 
 <body>
-    <div id="bakeries"></div>
+    <div id="bakeries">
+      <h2>Bakeries near you</h2>
+      <hr />
+    </div>
     <div id="map"></div>
     
     <script src="index.js"></script>

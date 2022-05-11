@@ -118,6 +118,7 @@ function showPlaces() {
     }).then((response) => {
         map.getSource("places").setData(response.geoJson);
         bakeries = response.geoJson.features;
+        getDistance();
         listBakeries();
     }).catch((error) => { alert("There was a problem using the geocoder. See the console for details."); });
 }
@@ -129,10 +130,13 @@ function listBakeries() {
         bounds.extend(bakery.geometry.coordinates);
 
         let details = document.createElement('p');
+        let distance = document.createElement('span');
+        distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
         details.className = 'details';
         details.onmouseover = function() {showAddress(this, bakery)};
         details.onmouseout = function() {showName(this, bakery)};
         details.innerHTML = bakery.properties.PlaceName;
+        details.appendChild(distance);
         list.appendChild(details);
     })
 
@@ -145,6 +149,9 @@ function showAddress(e, bakery) {
 
 function showName(e, bakery) {
     e.innerHTML = bakery.properties.PlaceName;
+    let distance = document.createElement('span');
+    distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
+    e.appendChild(distance);
 }
 
 function addRouteLayer() {
@@ -176,4 +183,10 @@ function updateRoute(start, end) {
     }).then((response) => {
         map.getSource("route").setData(response.routes.geoJson);
     }).catch((error) => { alert("There was a problem using the route service. See the console for details."); });
+}
+
+function getDistance() {
+    bakeries.forEach(b => {
+        b.distance = turf.distance(b.geometry.coordinates, coordinates, { units: 'miles' });
+    })
 }

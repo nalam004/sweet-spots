@@ -25,12 +25,31 @@ a {
     padding: 1em;
     margin: 2em;
 
+    h2 {
+        margin: 0;
+    }
+
+    hr {
+        background-color: #ff69af;
+        border: none;
+        height: 1px;
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     .details {
+        display: grid;
         cursor: pointer;
         font-size: 20px;
         letter-spacing: 0.05em;
         padding: 0.5em;
         margin: 0;
+
+        span {
+            font-size: 16px;
+        }
 
         &:hover {
             background-color: #ff69af;

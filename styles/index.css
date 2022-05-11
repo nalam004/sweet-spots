@@ -28,12 +28,32 @@ a {
   margin: 2em;
 }
 
+#bakeries h2 {
+  margin: 0;
+}
+
+#bakeries hr {
+  background-color: #ff69af;
+  border: none;
+  height: 1px;
+}
+
+#bakeries::-webkit-scrollbar {
+  display: none;
+}
+
 #bakeries .details {
+  display: -ms-grid;
+  display: grid;
   cursor: pointer;
   font-size: 20px;
   letter-spacing: 0.05em;
   padding: 0.5em;
   margin: 0;
+}
+
+#bakeries .details span {
+  font-size: 16px;
 }
 
 #bakeries .details:hover {
