@@ -1,58 +1,92 @@
+// variables 
+$font-family-heading: 'Pacifico', cursive;
+$font-family-text: 'Yantramanav', sans-serif;
+$primary-color: #ff69af;
+$transition: 200ms linear all;
+
+@keyframes gradient-animation {
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
 html, body, #map {
     padding: 0;
     margin: 0;
     height: 100%;
     width: 100%;
-    font-family: 'Yantramanav', sans-serif;
+    font-family: $font-family-text;
+    letter-spacing: 0.05em;
 }
 
-a {
-    text-decoration-color: #ff69af;
-    color: black;
-    font-size: 18px;
-}
-
-#bakeries {
-    background-color: rgba(#fff, 0.8);
+#panel {
     width: 350px;
-    height: 50%;
-    position: absolute;
-    z-index: 1;
-    overflow-x: hidden;
-    transition: all .2s ease-out;
-    border: 3px dotted #ff69af;
-    border-radius: 20px;
+    height: 6%;
     padding: 1em;
     margin: 2em;
-
-    h2 {
-        margin: 0;
-    }
-
-    hr {
-        background-color: #ff69af;
-        border: none;
-        height: 1px;
-    }
+    position: absolute;
+    background-color: rgba(#fff, 0.8);
+    z-index: 1;
+    border-radius: 20px;
+    border: 3px dotted $primary-color;
+    transition: $transition;
+    overflow-x: hidden;
 
     &::-webkit-scrollbar {
         display: none;
+    }
+    
+    &:hover {
+        height: 50%;
+
+        #bakeries {
+            display: block;
+        }
+
+        h2::after {
+            transform: rotate(270deg);
+        }
+    }
+
+    #bakeries {
+        display: none;
+    }
+
+    h2 {
+        margin: 0;
+        font-family: $font-family-heading;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &::after {
+            content: "\279C";
+            transform: rotate(90deg);
+            transition: $transition;
+            font-size: 20px;
+        }
+    }
+
+    hr {
+        background-color: $primary-color;
+        border: none;
+        height: 1px;
     }
 
     .details {
         display: grid;
         cursor: pointer;
         font-size: 20px;
-        letter-spacing: 0.05em;
         padding: 0.5em;
         margin: 0;
 
         span {
             font-size: 16px;
+            color: rgba($primary-color, 0.8);
         }
 
         &:hover {
-            background-color: #ff69af;
+            background-color: $primary-color;
             border-radius: 10px;
         }
     }

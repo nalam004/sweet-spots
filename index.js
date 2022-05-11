@@ -89,9 +89,8 @@ if ("geolocation" in navigator) {
 
             map.on("click", "markers", (e) => {
                 const place = e.features[0];
-                let start = coordinates;
                 let end = place.geometry.coordinates;
-                updateRoute(start, end);
+                updateRoute(end);
 
                 map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], place.id, 0.08, 0.05 ]);
             });
@@ -125,6 +124,7 @@ function showPlaces() {
 
 function listBakeries() {
     let list = document.getElementById("bakeries");
+    bakeries.sort((a, b) => (a.distance < b.distance ? -1 : 1));
 
     bakeries.forEach(bakery => {
         bounds.extend(bakery.geometry.coordinates);
@@ -135,6 +135,7 @@ function listBakeries() {
         details.className = 'details';
         details.onmouseover = function() {showAddress(this, bakery)};
         details.onmouseout = function() {showName(this, bakery)};
+        details.onclick = function() {showBakery(this, bakery)};
         details.innerHTML = bakery.properties.PlaceName;
         details.appendChild(distance);
         list.appendChild(details);
@@ -154,6 +155,12 @@ function showName(e, bakery) {
     e.appendChild(distance);
 }
 
+function showBakery(e, bakery) {
+    let end = bakery.geometry.coordinates;
+    updateRoute(end);
+    map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], bakery.id, 0.08, 0.05 ]);
+}
+
 function addRouteLayer() {
     map.addSource("route", {
         type: "geojson",
@@ -170,14 +177,15 @@ function addRouteLayer() {
 
         paint: {
             "line-color": "#ff69af",
+            "line-opacity": 0.8,
             "line-width": 4
         }
     });
 }
 
-function updateRoute(start, end) {
+function updateRoute(end) {
     arcgisRest.solveRoute({
-        stops: [start, end],
+        stops: [coordinates, end],
         endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve",
         authentication
     }).then((response) => {
@@ -186,7 +194,10 @@ function updateRoute(start, end) {
 }
 
 function getDistance() {
+    let index = 0;
     bakeries.forEach(b => {
+        b.id = index;
+        index++;
         b.distance = turf.distance(b.geometry.coordinates, coordinates, { units: 'miles' });
     })
 }

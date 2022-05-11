@@ -1,62 +1,102 @@
+@-webkit-keyframes gradient-animation {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient-animation {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 html, body, #map {
   padding: 0;
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: 'Yantramanav', sans-serif;
+  font-family: "Yantramanav", sans-serif;
+  letter-spacing: 0.05em;
 }
 
-a {
-  -webkit-text-decoration-color: #ff69af;
-          text-decoration-color: #ff69af;
-  color: black;
-  font-size: 18px;
-}
-
-#bakeries {
-  background-color: rgba(255, 255, 255, 0.8);
+#panel {
   width: 350px;
-  height: 50%;
-  position: absolute;
-  z-index: 1;
-  overflow-x: hidden;
-  -webkit-transition: all .2s ease-out;
-  transition: all .2s ease-out;
-  border: 3px dotted #ff69af;
-  border-radius: 20px;
+  height: 6%;
   padding: 1em;
   margin: 2em;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1;
+  border-radius: 20px;
+  border: 3px dotted #ff69af;
+  -webkit-transition: 200ms linear all;
+  transition: 200ms linear all;
+  overflow-x: hidden;
 }
 
-#bakeries h2 {
+#panel::-webkit-scrollbar {
+  display: none;
+}
+
+#panel:hover {
+  height: 50%;
+}
+
+#panel:hover #bakeries {
+  display: block;
+}
+
+#panel:hover h2::after {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+#panel #bakeries {
+  display: none;
+}
+
+#panel h2 {
   margin: 0;
+  font-family: "Pacifico", cursive;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  cursor: pointer;
 }
 
-#bakeries hr {
+#panel h2::after {
+  content: "\279C";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  -webkit-transition: 200ms linear all;
+  transition: 200ms linear all;
+  font-size: 20px;
+}
+
+#panel hr {
   background-color: #ff69af;
   border: none;
   height: 1px;
 }
 
-#bakeries::-webkit-scrollbar {
-  display: none;
-}
-
-#bakeries .details {
+#panel .details {
   display: -ms-grid;
   display: grid;
   cursor: pointer;
   font-size: 20px;
-  letter-spacing: 0.05em;
   padding: 0.5em;
   margin: 0;
 }
 
-#bakeries .details span {
+#panel .details span {
   font-size: 16px;
+  color: rgba(255, 105, 175, 0.8);
 }
 
-#bakeries .details:hover {
+#panel .details:hover {
   background-color: #ff69af;
   border-radius: 10px;
 }
