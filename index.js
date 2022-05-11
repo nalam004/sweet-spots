@@ -5,6 +5,7 @@ const basemapEnum = "ArcGIS:Navigation";
 let coordinates;
 let map;
 let popup;
+let bakeries;
 
 if ("geolocation" in navigator) { 
     navigator.geolocation.getCurrentPosition(position => { 
@@ -19,7 +20,7 @@ if ("geolocation" in navigator) {
 
         map.once("load", () => { 
             // load marker image and user icon image
-            map.loadImage('https://cdn-icons-png.flaticon.com/512/619/619483.png', (error, image) => {
+            map.loadImage('img/cupcake.png', (error, image) => {
                 if (error) throw error;
                 map.addImage('cupcake', image);
             })
@@ -60,7 +61,8 @@ if ("geolocation" in navigator) {
                 data: {
                     type: "FeatureCollection",
                     features: []
-                }
+                },
+                generateId: true
             });
 
             map.addLayer({
@@ -69,13 +71,13 @@ if ("geolocation" in navigator) {
                 type: 'symbol',
                 layout: {
                     'icon-image': 'cupcake', 
-                    'icon-size': 0.05
+                    'icon-size':  0.05
                 }
             });
 
             map.on("mouseenter", "markers", (e) => {
                 const place = e.features[0];
-                popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false })
+                popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false, offset: 20 })
                                 .setHTML(`<b>${place.properties.PlaceName}</b>`)
                                 .setLngLat(place.geometry.coordinates)
                                 .addTo(map);
@@ -90,6 +92,8 @@ if ("geolocation" in navigator) {
                 let start = coordinates;
                 let end = place.geometry.coordinates;
                 updateRoute(start, end);
+
+                map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], place.id, 0.08, 0.05 ]);
             });
 
             showPlaces();
@@ -113,21 +117,34 @@ function showPlaces() {
         }
     }).then((response) => {
         map.getSource("places").setData(response.geoJson);
-        listBakeries(response.geoJson.features);
+        bakeries = response.geoJson.features;
+        listBakeries();
     }).catch((error) => { alert("There was a problem using the geocoder. See the console for details."); });
 }
 
-function listBakeries(bakeries) {
+function listBakeries() {
     let list = document.getElementById("bakeries");
 
     bakeries.forEach(bakery => {
         bounds.extend(bakery.geometry.coordinates);
-        let name = document.createElement('p');
-        name.innerHTML = bakery.properties.PlaceName;
-        list.appendChild(name);
+
+        let details = document.createElement('p');
+        details.className = 'details';
+        details.onmouseover = function() {showAddress(this, bakery)};
+        details.onmouseout = function() {showName(this, bakery)};
+        details.innerHTML = bakery.properties.PlaceName;
+        list.appendChild(details);
     })
 
     map.fitBounds(bounds);
+}
+
+function showAddress(e, bakery) {
+    e.innerHTML = bakery.properties.Place_addr;
+}
+
+function showName(e, bakery) {
+    e.innerHTML = bakery.properties.PlaceName;
 }
 
 function addRouteLayer() {

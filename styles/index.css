@@ -1,34 +1,43 @@
-html, body {
+html, body, #map {
   padding: 0;
   margin: 0;
   height: 100%;
   width: 100%;
+  font-family: 'Yantramanav', sans-serif;
 }
 
-#map {
-  background-color: #ff69af;
-  width: 100%;
-  height: 80%;
-}
-
-hr {
-  background-color: #ff69af;
-  height: 3px;
-  margin: 0;
-  border: none;
+a {
+  -webkit-text-decoration-color: #ff69af;
+          text-decoration-color: #ff69af;
+  color: black;
+  font-size: 18px;
 }
 
 #bakeries {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[4];
-      grid-template-columns: repeat(4, 1fr);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  justify-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 350px;
+  height: 50%;
+  position: absolute;
+  z-index: 1;
+  overflow-x: hidden;
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+  border: 3px dotted #ff69af;
+  border-radius: 20px;
+  padding: 1em;
+  margin: 2em;
+}
+
+#bakeries .details {
+  cursor: pointer;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+  padding: 0.5em;
+  margin: 0;
+}
+
+#bakeries .details:hover {
+  background-color: #ff69af;
+  border-radius: 10px;
 }
 /*# sourceMappingURL=index.css.map */
