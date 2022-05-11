@@ -159,6 +159,7 @@ function showBakery(e, bakery) {
     let end = bakery.geometry.coordinates;
     updateRoute(end);
     map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], bakery.id, 0.08, 0.05 ]);
+    map.fitBounds(bounds);
 }
 
 function addRouteLayer() {
@@ -174,6 +175,10 @@ function addRouteLayer() {
         id: "route-line",
         type: "line",
         source: "route",
+        layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
 
         paint: {
             "line-color": "#ff69af",
