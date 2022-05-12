@@ -20,7 +20,7 @@ html, body, #map {
 }
 
 #panel {
-  width: 350px;
+  width: 400px;
   height: 6%;
   padding: 1em;
   margin: 2em;
@@ -83,12 +83,15 @@ html, body, #map {
 }
 
 #panel .details {
-  display: -ms-grid;
-  display: grid;
   cursor: pointer;
   font-size: 20px;
   padding: 0.5em;
   margin: 0;
+}
+
+#panel .details img {
+  width: 15px;
+  padding-left: 5px;
 }
 
 #panel .details span {

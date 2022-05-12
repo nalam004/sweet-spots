@@ -6,6 +6,8 @@ let coordinates;
 let map;
 let popup;
 let bakeries;
+let selected;
+let list = document.getElementById("bakeries");
 
 if ("geolocation" in navigator) { 
     navigator.geolocation.getCurrentPosition(position => { 
@@ -90,6 +92,9 @@ if ("geolocation" in navigator) {
             map.on("click", "markers", (e) => {
                 const place = e.features[0];
                 let end = place.geometry.coordinates;
+                selected = place.properties.Place_addr;
+                while (list.lastChild) { list.removeChild(list.lastChild); }
+                listBakeries();
                 updateRoute(end);
 
                 map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], place.id, 0.08, 0.05 ]);
@@ -123,7 +128,6 @@ function showPlaces() {
 }
 
 function listBakeries() {
-    let list = document.getElementById("bakeries");
     bakeries.sort((a, b) => (a.distance < b.distance ? -1 : 1));
 
     bakeries.forEach(bakery => {
@@ -131,17 +135,23 @@ function listBakeries() {
 
         let details = document.createElement('p');
         let distance = document.createElement('span');
+        let new_line = document.createElement('br');
         distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
         details.className = 'details';
         details.onmouseover = function() {showAddress(this, bakery)};
         details.onmouseout = function() {showName(this, bakery)};
         details.onclick = function() {showBakery(this, bakery)};
         details.innerHTML = bakery.properties.PlaceName;
+        if (bakery.properties.Place_addr == selected) {
+            let icon = document.createElement('img');
+            icon.src = "img/cupcake.png";
+            details.appendChild(icon);
+        }
+        details.appendChild(new_line);
         details.appendChild(distance);
         list.appendChild(details);
     })
-
-    map.fitBounds(bounds);
+    map.fitBounds(bounds, {padding: 20});
 }
 
 function showAddress(e, bakery) {
@@ -152,14 +162,23 @@ function showName(e, bakery) {
     e.innerHTML = bakery.properties.PlaceName;
     let distance = document.createElement('span');
     distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
+    if (bakery.properties.Place_addr == selected) {
+        let icon = document.createElement('img');
+        icon.src = "img/cupcake.png";
+        e.appendChild(icon);
+    }
+    let new_line = document.createElement('br');
+    e.appendChild(new_line);
     e.appendChild(distance);
 }
 
 function showBakery(e, bakery) {
     let end = bakery.geometry.coordinates;
+    selected = bakery.properties.Place_addr;
+    while (list.lastChild) { list.removeChild(list.lastChild); }
+    listBakeries();
     updateRoute(end);
     map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], bakery.id, 0.08, 0.05 ]);
-    map.fitBounds(bounds);
 }
 
 function addRouteLayer() {
@@ -195,6 +214,12 @@ function updateRoute(end) {
         authentication
     }).then((response) => {
         map.getSource("route").setData(response.routes.geoJson);
+        let route = map.getSource("route")._data.features[0].geometry.coordinates;
+        let route_bounds = new mapboxgl.LngLatBounds();
+        for(let i = 0; i < route.length; i++) {
+            route_bounds.extend(route[i]);
+        }
+        map.fitBounds(route_bounds, {padding: 20});
     }).catch((error) => { alert("There was a problem using the route service. See the console for details."); });
 }
 
