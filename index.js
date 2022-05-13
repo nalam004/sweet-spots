@@ -8,6 +8,8 @@ let popup;
 let bakeries;
 let selected;
 let list = document.getElementById("bakeries");
+let panel = document.getElementById("panel");
+let preloader = document.getElementById('preloader');
 
 if ("geolocation" in navigator) { 
     navigator.geolocation.getCurrentPosition(position => { 
@@ -124,6 +126,7 @@ function showPlaces() {
         bakeries = response.geoJson.features;
         getDistance();
         listBakeries();
+        preloader.style.display = 'none';
     }).catch((error) => { alert("There was a problem using the geocoder. See the console for details."); });
 }
 
@@ -157,6 +160,8 @@ function listBakeries() {
         details.appendChild(address);
         details.appendChild(distance);
         list.appendChild(details);
+
+        panel.onmouseleave = function() { panel.scrollTop = 0; }
     })
     map.fitBounds(bounds, {padding: 20});
 }

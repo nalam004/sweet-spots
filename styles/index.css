@@ -19,6 +19,14 @@ html, body, #map {
   letter-spacing: 0.05em;
 }
 
+#preloader {
+  position: absolute;
+  z-index: 3;
+  background-color: #61AFFF;
+  width: 100%;
+  height: 100vh;
+}
+
 #panel {
   height: 3em;
   padding: 1em;
@@ -30,6 +38,7 @@ html, body, #map {
   border: 3px dotted #ff69af;
   -webkit-transition: 200ms linear all;
   transition: 200ms linear all;
+  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 
@@ -41,17 +50,9 @@ html, body, #map {
   height: 30em;
 }
 
-#panel:hover #bakeries {
-  display: block;
-}
-
 #panel:hover h2::after {
   -webkit-transform: rotate(270deg);
           transform: rotate(270deg);
-}
-
-#panel #bakeries {
-  display: none;
 }
 
 #panel h2 {
@@ -61,7 +62,7 @@ html, body, #map {
   display: grid;
   -ms-grid-columns: 1fr 20px;
       grid-template-columns: 1fr 20px;
-  gap: 50px;
+  gap: 30px;
   cursor: pointer;
 }
 
