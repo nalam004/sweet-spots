@@ -20,8 +20,7 @@ html, body, #map {
 }
 
 #panel {
-  width: 400px;
-  height: 6%;
+  height: 3em;
   padding: 1em;
   margin: 2em;
   position: absolute;
@@ -39,8 +38,7 @@ html, body, #map {
 }
 
 #panel:hover {
-  height: 50%;
-  width: auto;
+  height: 30em;
 }
 
 #panel:hover #bakeries {
@@ -59,12 +57,11 @@ html, body, #map {
 #panel h2 {
   margin: 0;
   font-family: "Pacifico", cursive;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 20px;
+      grid-template-columns: 1fr 20px;
+  gap: 50px;
   cursor: pointer;
 }
 
