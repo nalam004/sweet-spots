@@ -10,6 +10,7 @@ let selected;
 let list = document.getElementById("bakeries");
 let panel = document.getElementById("panel");
 let preloader = document.getElementById('preloader');
+let close = document.getElementById('close-route');
 
 if ("geolocation" in navigator) { 
     navigator.geolocation.getCurrentPosition(position => { 
@@ -94,7 +95,7 @@ if ("geolocation" in navigator) {
             map.on("click", "markers", (e) => {
                 const place = e.features[0];
                 let end = place.geometry.coordinates;
-                selected = place.properties.Place_addr;
+                selected = place.id;
                 while (list.lastChild) { list.removeChild(list.lastChild); }
                 listBakeries();
                 updateRoute(end);
@@ -152,7 +153,7 @@ function listBakeries() {
         
         details.onclick = function() {showBakery(bakery)};
         details.appendChild(name); 
-        if (bakery.properties.Place_addr == selected) {
+        if (bakery.id == selected) {
             let icon = document.createElement('img');
             icon.src = "img/cupcake.png";
             name.appendChild(icon);
@@ -168,11 +169,11 @@ function listBakeries() {
 
 function showBakery(bakery) {
     let end = bakery.geometry.coordinates;
-    selected = bakery.properties.Place_addr;
+    selected = bakery.id;
     while (list.lastChild) { list.removeChild(list.lastChild); }
     listBakeries();
     updateRoute(end);
-    map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], bakery.id, 0.08, 0.05 ]);
+    map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], selected, 0.08, 0.05 ]);
 }
 
 function addRouteLayer() {
@@ -202,18 +203,35 @@ function addRouteLayer() {
 }
 
 function updateRoute(end) {
+    map.setLayoutProperty("route-line", 'visibility', 'visible');
+
     arcgisRest.solveRoute({
         stops: [coordinates, end],
         endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve",
         authentication
     }).then((response) => {
         map.getSource("route").setData(response.routes.geoJson);
+        
+        // fit bounds when route is displayed
         let route = map.getSource("route")._data.features[0].geometry.coordinates;
         let route_bounds = new mapboxgl.LngLatBounds();
         for(let i = 0; i < route.length; i++) {
             route_bounds.extend(route[i]);
         }
         map.fitBounds(route_bounds, {padding: 20});
+        
+        // close route
+        close.style.display = 'block';
+        close.addEventListener('click', () => {
+            map.setLayoutProperty("route-line", 'visibility', 'none');
+            close.style.display = 'none';
+            selected = 30;
+            while (list.lastChild) { list.removeChild(list.lastChild); }
+            listBakeries();
+            map.fitBounds(bounds, {padding: 20});
+            map.setLayoutProperty('markers', 'icon-size', [ 'match', ['id'], selected, 0.05, 0.05 ]);
+        });
+
     }).catch((error) => { alert("There was a problem using the route service. See the console for details."); });
 }
 
