@@ -38,6 +38,7 @@ html, body, #map {
     
     &:hover {
         height: 50%;
+        width: auto;
 
         #bakeries {
             display: block;
@@ -75,23 +76,37 @@ html, body, #map {
 
     .details {
         cursor: pointer;
-        font-size: 20px;
         padding: 0.5em;
-        margin: 0;
+
+        p {
+            margin: 0;
+        }
 
         img {
             width: 15px;
             padding-left: 5px;
         }
 
-        span {
-            font-size: 16px;
+        .name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .address, .distance {
+            font-size: 16px;   
+        }
+
+        .distance {
             color: rgba($primary-color, 0.8);
         }
 
         &:hover {
             background-color: $primary-color;
             border-radius: 10px;
+
+            .distance {
+                color: rgba(white, 0.8);
+            }
         }
     }
 }

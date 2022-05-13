@@ -40,6 +40,7 @@ html, body, #map {
 
 #panel:hover {
   height: 50%;
+  width: auto;
 }
 
 #panel:hover #bakeries {
@@ -84,8 +85,10 @@ html, body, #map {
 
 #panel .details {
   cursor: pointer;
-  font-size: 20px;
   padding: 0.5em;
+}
+
+#panel .details p {
   margin: 0;
 }
 
@@ -94,13 +97,25 @@ html, body, #map {
   padding-left: 5px;
 }
 
-#panel .details span {
+#panel .details .name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+#panel .details .address, #panel .details .distance {
   font-size: 16px;
+}
+
+#panel .details .distance {
   color: rgba(255, 105, 175, 0.8);
 }
 
 #panel .details:hover {
   background-color: #ff69af;
   border-radius: 10px;
+}
+
+#panel .details:hover .distance {
+  color: rgba(255, 255, 255, 0.8);
 }
 /*# sourceMappingURL=index.css.map */

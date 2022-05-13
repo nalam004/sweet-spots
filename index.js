@@ -133,46 +133,35 @@ function listBakeries() {
     bakeries.forEach(bakery => {
         bounds.extend(bakery.geometry.coordinates);
 
-        let details = document.createElement('p');
-        let distance = document.createElement('span');
-        let new_line = document.createElement('br');
-        distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
+        let details = document.createElement('div');
+        let name = document.createElement('p');
+        let address = document.createElement('p');
+        let distance = document.createElement('p');
+
         details.className = 'details';
-        details.onmouseover = function() {showAddress(this, bakery)};
-        details.onmouseout = function() {showName(this, bakery)};
-        details.onclick = function() {showBakery(this, bakery)};
-        details.innerHTML = bakery.properties.PlaceName;
+        name.className = 'name';
+        address.className = 'address';
+        distance.className = 'distance';
+
+        name.innerHTML = bakery.properties.PlaceName;
+        address.innerHTML = bakery.properties.Place_addr;
+        distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
+        
+        details.onclick = function() {showBakery(bakery)};
+        details.appendChild(name); 
         if (bakery.properties.Place_addr == selected) {
             let icon = document.createElement('img');
             icon.src = "img/cupcake.png";
-            details.appendChild(icon);
+            name.appendChild(icon);
         }
-        details.appendChild(new_line);
+        details.appendChild(address);
         details.appendChild(distance);
         list.appendChild(details);
     })
     map.fitBounds(bounds, {padding: 20});
 }
 
-function showAddress(e, bakery) {
-    e.innerHTML = bakery.properties.Place_addr;
-}
-
-function showName(e, bakery) {
-    e.innerHTML = bakery.properties.PlaceName;
-    let distance = document.createElement('span');
-    distance.innerHTML = bakery.distance.toFixed([1]) + " miles";
-    if (bakery.properties.Place_addr == selected) {
-        let icon = document.createElement('img');
-        icon.src = "img/cupcake.png";
-        e.appendChild(icon);
-    }
-    let new_line = document.createElement('br');
-    e.appendChild(new_line);
-    e.appendChild(distance);
-}
-
-function showBakery(e, bakery) {
+function showBakery(bakery) {
     let end = bakery.geometry.coordinates;
     selected = bakery.properties.Place_addr;
     while (list.lastChild) { list.removeChild(list.lastChild); }
