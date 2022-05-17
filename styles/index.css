@@ -53,7 +53,7 @@ html, body, #map {
   padding: 0.5em 1em;
   border: 1px solid #ff69af;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 105, 175, 0.8);
   font-family: "Yantramanav", sans-serif;
   font-size: 20px;
   cursor: pointer;
@@ -61,7 +61,7 @@ html, body, #map {
 }
 
 #close-route:hover {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 @media (max-width: 670px) {

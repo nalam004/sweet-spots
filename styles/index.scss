@@ -44,14 +44,14 @@ html, body, #map {
     padding: 0.5em 1em;
     border: 1px solid $primary-color;
     border-radius: 10px;
-    background-color: rgba(#fff, 0.8);
+    background-color: rgba($primary-color, 0.8);
     font-family: $font-family-text;
     font-size: 20px;
     cursor: pointer;
     display: none;
 
     &:hover {
-        background-color: white;   
+        background-color: rgba(white, 0.8);   
     }
 
     @media (max-width: 670px) {
