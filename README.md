@@ -20,3 +20,5 @@ An app that finds the 20 nearest bakeries to the user.
 - [x] User can see cupcake icon next to the name of the selected bakery on the list.
 - [x] User can see enlarged icon of selected bakery. 
 - [x] User can close route to selected bakery.
+
+![Walkthrough](https://github.com/nalam004/sweet-spots/blob/master/img/sweet-spots.gif)
