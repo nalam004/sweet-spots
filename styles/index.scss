@@ -19,6 +19,20 @@ html, body, #map {
     letter-spacing: 0.05em;
 }
 
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 1px;
+}
+  
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+/* scrollbar */
+
 #preloader {
     position: absolute;
     z-index: 3;
